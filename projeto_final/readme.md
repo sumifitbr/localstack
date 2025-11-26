@@ -349,10 +349,13 @@ por:
     Devolve status ao Step Functions
 
 ✔️ 4. Choice State decide
-status	Caminho
-"RUNNING"	Volta para o Wait (loop)
-"FAILED"	Vai para JobFalhou
-"SUCCEEDED"	Vai para JobConcluido
+
+status|Caminho
+--|--
+"RUNNING"|Volta para o Wait (loop)
+"FAILED"|Vai para JobFalhou
+"SUCCEEDED"|Vai para JobConcluido
+
 ✔️ 5. Estados finais
 
 JobConcluido (Succeed) encerra com sucesso
