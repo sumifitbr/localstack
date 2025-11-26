@@ -332,21 +332,21 @@ por:
 
 ✔️ 2. Wait 5 seconds
 
-Dá tempo para simular um processamento real.
+    Dá tempo para simular um processamento real.
 
 ✔️ 3. VerificarJobSimulado (Lambda)
 
-Lê o arquivo de status
+    Lê o arquivo de status
 
-Incrementa progresso aleatório (20%–50%)
+    Incrementa progresso aleatório (20%–50%)
 
-20% de chance de falhar (testando CATCH realista)
+    20% de chance de falhar (testando CATCH realista)
 
-Se progresso >= 100% → "SUCCEEDED"
+    Se progresso >= 100% → "SUCCEEDED"
 
-Senão → "RUNNING"
+    Senão → "RUNNING"
 
-Devolve status ao Step Functions
+    Devolve status ao Step Functions
 
 ✔️ 4. Choice State decide
 status	Caminho
