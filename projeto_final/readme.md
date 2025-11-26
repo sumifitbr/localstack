@@ -358,23 +358,19 @@ status|Caminho
 
 ✔️ 5. Estados finais
 
-JobConcluido (Succeed) encerra com sucesso
+    JobConcluido (Succeed) encerra com sucesso
 
-JobFalhou (Fail) encerra com erro
+    JobFalhou (Fail) encerra com erro
 
 🧪 Resultado final no Step Functions Console (LocalStack UI)
 
 Você verá:
 
-5–10 ciclos de Wait → VerificarProgresso
-
-progress aumentando no output
-
-às vezes erro (para você testar o fluxo do Catch)
-
-às vezes sucesso
-
-comportamento realista como Glue Job
+    5–10 ciclos de Wait → VerificarProgresso
+    progress aumentando no output
+    às vezes erro (para você testar o fluxo do Catch)
+    às vezes sucesso
+    comportamento realista como Glue Job
 
 🚀 E o melhor:
 Para usar Glue REAL depois, você:
