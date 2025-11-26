@@ -9,7 +9,7 @@ services:
       - "4566:4566"   # Porta unificada dos serviços AWS simulados
       - "4571:4571"
     environment:
-      - SERVICES=lambda,s3,sqs,sns,apigateway,dynamodb,cloudwatch,logs,secretsmanager,iam
+      - SERVICES=lambda,s3,sqs,sns,apigateway,dynamodb,cloudwatch,logs,secretsmanager,iam,redshift
       - DEBUG=1
       - LAMBDA_EXECUTOR=docker
       - HOSTNAME_EXTERNAL=localstack

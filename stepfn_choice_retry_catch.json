@@ -1,0 +1,55 @@
+{
+  "Comment": "Exemplo: Choice + Retry + Catch",
+  "StartAt": "ValidarEntrada",
+  "States": {
+    "ValidarEntrada": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:000000000000:function:LambdaValidacao",
+      "Retry": [
+        {
+          "ErrorEquals": ["States.TaskFailed"],
+          "IntervalSeconds": 1,
+          "MaxAttempts": 2,
+          "BackoffRate": 2
+        }
+      ],
+      "Catch": [
+        {
+          "ErrorEquals": ["States.ALL"],
+          "Next": "FluxoDeErro"
+        }
+      ],
+      "Next": "Decisao"
+    },
+
+    "Decisao": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.tipo",
+          "StringEquals": "A",
+          "Next": "ProcessarTipoA"
+        }
+      ],
+      "Default": "ProcessarTipoGenerico"
+    },
+
+    "ProcessarTipoA": {
+      "Type": "Pass",
+      "Result": "Processamento especial para tipo A",
+      "End": true
+    },
+
+    "ProcessarTipoGenerico": {
+      "Type": "Pass",
+      "Result": "Processamento genérico",
+      "End": true
+    },
+
+    "FluxoDeErro": {
+      "Type": "Pass",
+      "Result": "Ocorreu um erro e foi tratado",
+      "End": true
+    }
+  }
+}
