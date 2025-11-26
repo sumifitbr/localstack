@@ -35,9 +35,8 @@ Essa Lambda vai:
 
 Vamos criar **2 Lambdas**:
 
-1. IniciarJobSimulado → inicia a execução e devolve um jobRunId
-
-2. VerificarStatusJobSimulado → retorna SUCCEEDED, RUNNING ou FAILED
+    1. IniciarJobSimulado → inicia a execução e devolve um jobRunId
+    2. VerificarStatusJobSimulado → retorna SUCCEEDED, RUNNING ou FAILED
 
 📁 Estrutura de pastas
 
