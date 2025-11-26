@@ -277,3 +277,44 @@ por:
 "Resource": "arn:aws:states:::glue:getJobRun"
 
 🔥 DIAGRAMA COMPLETO
+
+```bash
+                                      ┌───────────────────────┐
+                                      │        INÍCIO         │
+                                      └─────────────┬─────────┘
+                                                    │
+                                                    ▼
+                                 ┌──────────────────────────────────┐
+                                 │         IniciarJob (Lambda)      │
+                                 │  - Gera jobRunId                  │
+                                 │  - Salva status RUNNING no /tmp   │
+                                 │  - Retorna jobRunId ao SFN        │
+                                 └──────────────────────┬───────────┘
+                                                        │
+                                                        ▼
+                                          ┌──────────────────────────┐
+                                          │        Wait 5 segundos   │
+                                          └──────────────┬───────────┘
+                                                         │
+                                                         ▼
+                                 ┌──────────────────────────────────────┐
+                                 │   VerificarProgresso (Lambda)       │
+                                 │  - Lê arquivo /tmp/<jobRunId>.json  │
+                                 │  - Incrementa progresso             │
+                                 │  - Decide RUNNING / FAILED / SUCC.  │
+                                 │  - Atualiza arquivo /tmp            │
+                                 └───────────────────────┬────────────┘
+                                                         │
+                                                         ▼
+                                      ┌────────────────────────────────┐
+                                      │             Choice             │
+                                      │     status == "RUNNING"?       │
+                                      ├────────────────┬───────────────┤
+                                      │                │               │
+                                      │ SIM            │ status=FAILED │
+                                      │                │               │
+                                      ▼                ▼               ▼
+                ┌─────────────────────────────┐   ┌────────────────┐   ┌───────────────────────────┐
+                │   Volta p/ Wait 5 segundos   │   │    JobFalhou   │   │        JobConcluido       │
+                │  (loop até SUCCEEDED/FAILED) │   │   (Fail State) │   │        (Succeed State)    │
+                └─────────────────────────────┘   └────────────────┘   └───────────────────────────┘
