@@ -275,10 +275,9 @@ e no polling:
 por:
 ```json
 "Resource": "arn:aws:states:::glue:getJobRun"
-
+```
 🔥 DIAGRAMA COMPLETO
 
-```bash
                                       ┌───────────────────────┐
                                       │        INÍCIO         │
                                       └─────────────┬─────────┘
@@ -318,3 +317,69 @@ por:
                 │   Volta p/ Wait 5 segundos   │   │    JobFalhou   │   │        JobConcluido       │
                 │  (loop até SUCCEEDED/FAILED) │   │   (Fail State) │   │        (Succeed State)    │
                 └─────────────────────────────┘   └────────────────┘   └───────────────────────────┘
+
+🧠 Explicação simplificada do fluxo
+✔️ 1. IniciarJobSimulado (Lambda)
+
+Gera um ID único como se fosse jobRunId real do Glue
+
+Cria arquivo /tmp/<jobRunId>.json
+
+Define estado inicial "RUNNING"
+
+Step Functions recebe esse jobRunId
+
+✔️ 2. Wait 5 seconds
+
+Dá tempo para simular um processamento real.
+
+✔️ 3. VerificarJobSimulado (Lambda)
+
+Lê o arquivo de status
+
+Incrementa progresso aleatório (20%–50%)
+
+20% de chance de falhar (testando CATCH realista)
+
+Se progresso >= 100% → "SUCCEEDED"
+
+Senão → "RUNNING"
+
+Devolve status ao Step Functions
+
+✔️ 4. Choice State decide
+status	Caminho
+"RUNNING"	Volta para o Wait (loop)
+"FAILED"	Vai para JobFalhou
+"SUCCEEDED"	Vai para JobConcluido
+✔️ 5. Estados finais
+
+JobConcluido (Succeed) encerra com sucesso
+
+JobFalhou (Fail) encerra com erro
+
+🧪 Resultado final no Step Functions Console (LocalStack UI)
+
+Você verá:
+
+5–10 ciclos de Wait → VerificarProgresso
+
+progress aumentando no output
+
+às vezes erro (para você testar o fluxo do Catch)
+
+às vezes sucesso
+
+comportamento realista como Glue Job
+
+🚀 E o melhor:
+Para usar Glue REAL depois, você:
+
+troca:
+```json
+"Resource": "arn:aws:lambda:...IniciarJobSimulado"
+```
+por:
+```json
+"Resource": "arn:aws:states:::glue:startJobRun"
+```
