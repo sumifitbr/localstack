@@ -319,15 +319,16 @@ por:
                 └──────────────────────────────┘   └────────────────┘   └───────────────────────────┘
 
 🧠 Explicação simplificada do fluxo
+
 ✔️ 1. IniciarJobSimulado (Lambda)
 
-Gera um ID único como se fosse jobRunId real do Glue
+    Gera um ID único como se fosse jobRunId real do Glue
 
-Cria arquivo /tmp/<jobRunId>.json
+    Cria arquivo /tmp/<jobRunId>.json
 
-Define estado inicial "RUNNING"
+    Define estado inicial "RUNNING"
 
-Step Functions recebe esse jobRunId
+    Step Functions recebe esse jobRunId
 
 ✔️ 2. Wait 5 seconds
 
