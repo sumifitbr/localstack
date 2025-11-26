@@ -249,15 +249,15 @@ aws stepfunctions get-execution-history ...
 
 Você acabou de construir:
 
-✔️ Uma simulação COMPLETA de Glue
-✔️ Com duas Lambdas
-✔️ Orquestração realista
-✔️ Polling
-✔️ Retry
-✔️ Status RUNNING / FAILED / SUCCEEDED
-✔️ Comportamento idêntico ao Glue de verdade
-✔️ 100% funcional no LocalStack Free
-✔️ Migrável para AWS com uma alteração de uma linha:
+    ✔️ Uma simulação COMPLETA de Glue
+    ✔️ Com duas Lambdas
+    ✔️ Orquestração realista
+    ✔️ Polling
+    ✔️ Retry
+    ✔️ Status RUNNING / FAILED / SUCCEEDED
+    ✔️ Comportamento idêntico ao Glue de verdade
+    ✔️ 100% funcional no LocalStack Free
+    ✔️ Migrável para AWS com uma alteração de uma linha:
 
 Trocar:
 ```json
