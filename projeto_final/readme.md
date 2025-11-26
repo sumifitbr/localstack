@@ -285,9 +285,9 @@ por:
                                                     ▼
                                  ┌──────────────────────────────────┐
                                  │         IniciarJob (Lambda)      │
-                                 │  - Gera jobRunId                  │
-                                 │  - Salva status RUNNING no /tmp   │
-                                 │  - Retorna jobRunId ao SFN        │
+                                 │  - Gera jobRunId                 │
+                                 │  - Salva status RUNNING no /tmp  │
+                                 │  - Retorna jobRunId ao SFN       │
                                  └──────────────────────┬───────────┘
                                                         │
                                                         ▼
@@ -297,12 +297,12 @@ por:
                                                          │
                                                          ▼
                                  ┌──────────────────────────────────────┐
-                                 │   VerificarProgresso (Lambda)       │
-                                 │  - Lê arquivo /tmp/<jobRunId>.json  │
-                                 │  - Incrementa progresso             │
-                                 │  - Decide RUNNING / FAILED / SUCC.  │
-                                 │  - Atualiza arquivo /tmp            │
-                                 └───────────────────────┬────────────┘
+                                 │   VerificarProgresso (Lambda)        │
+                                 │  - Lê arquivo /tmp/<jobRunId>.json   │
+                                 │  - Incrementa progresso              │
+                                 │  - Decide RUNNING / FAILED / SUCC.   │
+                                 │  - Atualiza arquivo /tmp             │
+                                 └───────────────────────┬──────────────┘
                                                          │
                                                          ▼
                                       ┌────────────────────────────────┐
@@ -313,10 +313,10 @@ por:
                                       │ SIM            │ status=FAILED │
                                       │                │               │
                                       ▼                ▼               ▼
-                ┌─────────────────────────────┐   ┌────────────────┐   ┌───────────────────────────┐
+                ┌──────────────────────────────┐   ┌────────────────┐   ┌───────────────────────────┐
                 │   Volta p/ Wait 5 segundos   │   │    JobFalhou   │   │        JobConcluido       │
                 │  (loop até SUCCEEDED/FAILED) │   │   (Fail State) │   │        (Succeed State)    │
-                └─────────────────────────────┘   └────────────────┘   └───────────────────────────┘
+                └──────────────────────────────┘   └────────────────┘   └───────────────────────────┘
 
 🧠 Explicação simplificada do fluxo
 ✔️ 1. IniciarJobSimulado (Lambda)
