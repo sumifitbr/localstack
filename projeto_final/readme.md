@@ -323,11 +323,8 @@ por:
 ✔️ 1. IniciarJobSimulado (Lambda)
 
     Gera um ID único como se fosse jobRunId real do Glue
-
     Cria arquivo /tmp/<jobRunId>.json
-
     Define estado inicial "RUNNING"
-
     Step Functions recebe esse jobRunId
 
 ✔️ 2. Wait 5 seconds
@@ -337,15 +334,10 @@ por:
 ✔️ 3. VerificarJobSimulado (Lambda)
 
     Lê o arquivo de status
-
     Incrementa progresso aleatório (20%–50%)
-
     20% de chance de falhar (testando CATCH realista)
-
     Se progresso >= 100% → "SUCCEEDED"
-
     Senão → "RUNNING"
-
     Devolve status ao Step Functions
 
 ✔️ 4. Choice State decide
@@ -359,7 +351,6 @@ status|Caminho
 ✔️ 5. Estados finais
 
     JobConcluido (Succeed) encerra com sucesso
-
     JobFalhou (Fail) encerra com erro
 
 🧪 Resultado final no Step Functions Console (LocalStack UI)
