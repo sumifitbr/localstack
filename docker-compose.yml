@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:latest
+    container_name: localstack
+    restart: unless-stopped
+    ports:
+      - "4566:4566"   # Porta unificada dos serviços AWS simulados
+      - "4571:4571"
+    environment:
+      - SERVICES=lambda,s3,sqs,sns,apigateway,dynamodb,cloudwatch,logs,secretsmanager,iam
+      - DEBUG=1
+      - LAMBDA_EXECUTOR=docker
+      - HOSTNAME_EXTERNAL=localstack
+      - DATA_DIR=/var/lib/localstack
+    volumes:
+      # Volume persistente no seu repositório
+      - "/home/laralves/Documentos/repositorio/localstack/data:/var/lib/localstack"
+      # Socket Docker (necessário para executar Lambdas)
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - localstack_network
+
+networks:
+  localstack_network:
+    driver: bridge

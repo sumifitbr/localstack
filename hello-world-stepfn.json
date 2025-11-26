@@ -1,0 +1,11 @@
+{
+  "Comment": "Exemplo simples Step Functions no LocalStack",
+  "StartAt": "Hello",
+  "States": {
+    "Hello": {
+      "Type": "Pass",
+      "Result": "Olá do Step Functions!",
+      "End": true
+    }
+  }
+}
