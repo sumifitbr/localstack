@@ -373,3 +373,31 @@ por:
 ```json
 "Resource": "arn:aws:states:::glue:startJobRun"
 ```
+
+DIAGRAMA - MERMAID
+
+flowchart TD
+
+    Start([Início]) --> IniciarJob
+
+    subgraph Lambda1 [Lambda: IniciarJobSimulado]
+        IniciarJob[Iniciar Job<br/>- Gera jobRunId<br/>- Cria arquivo /tmp<br/>- status=RUNNING]
+    end
+
+    IniciarJob --> Wait5s
+
+    Wait5s[[Wait 5s]] --> VerificarStatus
+
+    subgraph Lambda2 [Lambda: VerificarJobSimulado]
+        VerificarStatus[Verificar Progresso<br/>- Lê /tmp/jobRunId.json<br/>- Aumenta progresso<br/>- RUNNING/FAILED/SUCCEEDED]
+    end
+
+    VerificarStatus --> ChoiceStatus
+
+    ChoiceStatus{status do Job} 
+    ChoiceStatus -->|RUNNING| Wait5s
+    ChoiceStatus -->|FAILED| JobFailed
+    ChoiceStatus -->|SUCCEEDED| JobSucceeded
+
+    JobSucceeded([SUCCEED<br/>Job concluído])
+    JobFailed([FAIL<br/>Job falhou])
