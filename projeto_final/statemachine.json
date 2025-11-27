@@ -1,0 +1,49 @@
+{
+  "Comment": "Simulação de Glue usando Lambda",
+  "StartAt": "IniciarJob",
+  "States": {
+    "IniciarJob": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:000000000000:function:IniciarJobSimulado",
+      "Next": "Aguardar5s"
+    },
+
+    "Aguardar5s": {
+      "Type": "Wait",
+      "Seconds": 5,
+      "Next": "VerificarProgresso"
+    },
+
+    "VerificarProgresso": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:000000000000:function:VerificarJobSimulado",
+      "Next": "DecisaoStatus"
+    },
+
+    "DecisaoStatus": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.status",
+          "StringEquals": "RUNNING",
+          "Next": "Aguardar5s"
+        },
+        {
+          "Variable": "$.status",
+          "StringEquals": "FAILED",
+          "Next": "JobFalhou"
+        }
+      ],
+      "Default": "JobConcluido"
+    },
+
+    "JobConcluido": {
+      "Type": "Succeed"
+    },
+
+    "JobFalhou": {
+      "Type": "Fail",
+      "Cause": "JobSimuladoFalhou"
+    }
+  }
+}

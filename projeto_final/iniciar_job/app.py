@@ -1,30 +1,30 @@
 import json
 import uuid
-import random
+import os
 
 def handler(event, context):
-    # Simula parametros da chamada de um glue job
-    job_name = event.get("jobName", "JobSimulado")
-    args = event.get("arguments", {})
+    # Pega o jobName recebido (aceita qualquer nome)
+    job_name = event.get("jobName", "JOB_DESCONHECIDO")
 
-    # Geramos um ID único para a simulação do Glue Job
+    # Gera ID único simulando Glue JobRunId
     job_run_id = str(uuid.uuid4())
 
-    # Vamos registrar (em memória local) o status inicial "RUNNING"
-    # Simples dicionário para testes locais
-    status = {
-        "jobRunId": job_run_id,
+    # Caminho do arquivo que simula o status do Glue
+    status_path = f"/tmp/{job_run_id}.json"
+
+    # Estado inicial
+    data = {
         "jobName": job_name,
         "status": "RUNNING",
-        "progress": 0,
-        "arguments": args
+        "progress": 0
     }
 
-    # Salvamos o status em um arquivo local (funciona no LocalStack)
-    with open(f"/tmp/{job_run_id}.json", "w") as f:
-        json.dump(status, f)
+    # Salva o estado em /tmp (persistente durante a execução do container localstack)
+    with open(status_path, "w") as f:
+        json.dump(data, f)
 
+    # Retorno que o Step Functions espera
     return {
         "jobRunId": job_run_id,
-        "message": "Job simulado iniciado com sucesso"
+        "status": "RUNNING"
     }

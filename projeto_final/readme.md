@@ -127,6 +127,23 @@ def handler(event, context):
     return status
 ```
 
+✅ COMANDO CORRETO PARA TESTAR A LAMBDA
+```bash
+aws lambda invoke \
+  --function-name IniciarJobSimulado \
+  --payload '{"jobName":"ProcessaCSV"}' \
+  --cli-binary-format raw-in-base64-out \
+  --endpoint-url http://localhost:4566 \
+  --region us-east-1 \
+  saida.json
+```
+
+Verifique se um arquivo saida.json foi criado e execute:
+
+```bash
+cat saida.json
+```
+
 🟨 PASSO 4 — Zipar e subir as Lambdas
 
 Iniciar Job
@@ -159,6 +176,16 @@ aws lambda create-function \
   --handler app.handler \
   --role arn:aws:iam::000000000000:role/lambda-role \
   --zip-file fileb://verificar_job.zip
+```
+
+Caso queira atualizar a lambda execute
+
+```bash
+aws lambda update-function-code \
+  --function-name IniciarJobSimulado \
+  --zip-file fileb://lambda_iniciar.zip \
+  --endpoint-url http://localhost:4566 \
+  --region us-east-1
 ```
 
 🟦 PASSO 5 — Criar Step Functions para orquestrar o “Glue”
@@ -373,3 +400,8 @@ por:
 ```json
 "Resource": "arn:aws:states:::glue:startJobRun"
 ```
+
+aws stepfunctions describe-execution \
+  --endpoint-url http://localhost:4566 \
+  --region us-east-1 \
+  --execution-arn arn:aws:states:us-east-1:000000000000:execution:GlueSimuladoStateMachine:a4c33cad-7c27-48cc-9d74-d3a9130d10e3
